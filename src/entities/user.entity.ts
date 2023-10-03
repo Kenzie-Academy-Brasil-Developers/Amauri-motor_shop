@@ -5,10 +5,13 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import Address from "./address.entity";
+import Anouncement from "./anouncements.entity";
+import Comment from "./comments.entity";
 
 enum UserType {
   COMPRADOR = "Comprador",
@@ -55,6 +58,14 @@ class User {
   @OneToOne(() => Address,{onDelete:'CASCADE'})
   @JoinColumn()
   address: Address;
+
+  @OneToMany(()=> Anouncement,(an)=>an.user,{onDelete:'CASCADE'})
+  anouncements:Array<Anouncement>
+
+  @OneToMany(()=>Comment,(c)=> c.user)
+  comments:Array<Comment>
+
 }
+
 
 export default User;
