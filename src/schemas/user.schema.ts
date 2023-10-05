@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { addressCreateSchema, addressUpdateSchema } from "./address.schema";
+import { UserType } from "../entities/user.entity";
 
 const userSchema = z.object({
   id: z.number().positive(),
@@ -9,7 +10,7 @@ const userSchema = z.object({
   celular: z.string().max(30),
   data_de_nascimento: z.string().max(30),
   descricao: z.string().nullish(),
-  tipo_de_conta: z.string(),
+  tipo_de_conta: z.nativeEnum(UserType),
   password: z.string().max(200),
 });
 

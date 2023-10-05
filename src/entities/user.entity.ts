@@ -13,7 +13,7 @@ import Address from "./address.entity";
 import Anouncement from "./anouncements.entity";
 import Comment from "./comments.entity";
 
-enum UserType {
+export enum UserType {
   COMPRADOR = "Comprador",
   ANUNCIANTE = "Anunciante",
 }

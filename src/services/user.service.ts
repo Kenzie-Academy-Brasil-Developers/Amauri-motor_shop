@@ -2,18 +2,22 @@ import { AppDataSource } from "../data-source";
 import Address from "../entities/address.entity";
 import User from "../entities/user.entity";
 import { addressRepo } from "../interfaces/address.interface";
-import { UserRepo, UserReturn, UserUpdate } from "../interfaces/user.interface";
+import { UserCreate, UserRepo, UserReturn, UserUpdate } from "../interfaces/user.interface";
 import { userReturnSchema } from "../schemas/user.schema";
 
-const create = async (payload: any): Promise<UserReturn> => {
+const create = async (payload: UserCreate): Promise<UserReturn> => {
   const userRepository: UserRepo = AppDataSource.getRepository(User);
 
   const addressRepository: addressRepo = AppDataSource.getRepository(Address);
-  const address = addressRepository.create(payload.address);
+  const address: Address= addressRepository.create(payload.address);
 
   await addressRepository.save(address);
 
-  const user = userRepository.create({ ...payload, address: address });
+  const user:User = userRepository.create({ 
+  ...payload,
+
+    address: address
+   });
 
   await userRepository.save(user);
 

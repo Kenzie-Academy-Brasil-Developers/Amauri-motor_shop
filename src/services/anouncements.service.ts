@@ -4,6 +4,7 @@ import Image from "../entities/images.entity";
 import User from "../entities/user.entity";
 import { AppError } from "../errors/app.error";
 import {
+  anouncementCreate,
   anouncementRead,
   anouncementRepo,
   anouncementReturn,
@@ -15,14 +16,14 @@ import {
   anouncementsReturnSchema,
 } from "../schemas/annoucements.schema";
 
-const create = async (payload: any, user: User) => {
+const create = async (payload:any, user: User) => {
   if (user.tipo_de_conta != "Anunciante")
     throw new AppError("Not Anunciante!", 403);
 
   const anouncementRepository: anouncementRepo =
     AppDataSource.getRepository(Anouncement);
 
-  const newAnnouncement = anouncementRepository.create({
+  const newAnnouncement:Anouncement = anouncementRepository.create({
     marca: payload.marca,
     modelo: payload.modelo,
     ano: payload.ano,
@@ -82,7 +83,7 @@ const update = async (
       ...payload,
     });
 
-    const anouncementAtualizado: any = await repo.save(anouncementUpd)!;
+    const anouncementAtualizado: Anouncement = await repo.save(anouncementUpd)!;
 
     for await (let i of payload.imagens) {
       const updImage = anouncementAtualizado.images.find(

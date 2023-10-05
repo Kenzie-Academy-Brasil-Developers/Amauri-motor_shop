@@ -13,13 +13,14 @@ const anouncementsSchema = z.object({
   valor: z.string().or( z.number().positive()),
   descricao: z.string().max(2000),
   img_capa: z.string().max(2000),
+  
 
 
 });
 
 const anouncementsCreateSchema=anouncementsSchema.omit({id:true}).extend({images:imagesCreateSchema})
 const anouncementsUpdateSchema=anouncementsCreateSchema.omit({images:true}).extend({images:imagesUpdateSchema}).partial()
-const anouncementsReturnSchema=anouncementsSchema.extend({images:imagesCreateSchema})
+const anouncementsReturnSchema=anouncementsCreateSchema.omit({images:true}).extend({images:imagesCreateSchema})
 const anouncementsReadSchema= anouncementsReturnSchema.array()
 
 export{

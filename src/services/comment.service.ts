@@ -56,7 +56,7 @@ const update = async (
       ...payload,
     });
 
-    const commentAtualizado: any = await repo.save(commentUpd)!;
+    const commentAtualizado: Comment = await repo.save(commentUpd)!;
 
     return commentAtualizado;
   }
