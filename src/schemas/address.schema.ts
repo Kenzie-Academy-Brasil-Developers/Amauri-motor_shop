@@ -8,10 +8,9 @@ const addressSchema = z.object({
   cidade: z.string().max(150),
   estado: z.string().max(2),
   complemento: z.string().max(30).nullish(),
-
 });
 
-const addressCreateSchema=addressSchema.omit({id:true})
-const addressUpdateSchema=addressCreateSchema.partial()
+const addressCreateSchema = addressSchema.omit({ id: true });
+const addressUpdateSchema = addressCreateSchema.partial();
 
-export { addressSchema,addressCreateSchema,addressUpdateSchema };
+export { addressSchema, addressCreateSchema, addressUpdateSchema };

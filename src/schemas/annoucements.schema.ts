@@ -18,7 +18,7 @@ const anouncementsSchema = z.object({
 });
 
 const anouncementsCreateSchema=anouncementsSchema.omit({id:true}).extend({images:imagesCreateSchema})
-const anouncementsUpdateSchema=anouncementsCreateSchema.extend({images:imagesUpdateSchema}).partial()
+const anouncementsUpdateSchema=anouncementsCreateSchema.omit({images:true}).extend({images:imagesUpdateSchema}).partial()
 const anouncementsReturnSchema=anouncementsSchema.extend({images:imagesCreateSchema})
 const anouncementsReadSchema= anouncementsReturnSchema.array()
 

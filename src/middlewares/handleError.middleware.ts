@@ -15,7 +15,6 @@ export const handleError = (
   if (error instanceof ZodError) {
     return res.status(400).json({ message: error.flatten().fieldErrors });
   }
-console.log("oi")
   console.error(error);
   return res.status(500).json({ message: "Internal server error" });
 };

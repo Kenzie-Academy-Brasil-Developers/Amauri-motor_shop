@@ -39,7 +39,7 @@ class User {
   data_de_nascimento: string;
 
   @Column({ type: "text", nullable: true })
-  descricao?: string| null | undefined;
+  descricao?: string | null | undefined;
 
   @Column({ type: "enum", enum: UserType, default: UserType.COMPRADOR })
   tipo_de_conta: UserType;
@@ -55,17 +55,15 @@ class User {
       this.password = hashSync(this.password, 10);
     }
   }
-  @OneToOne(() => Address,{onDelete:'CASCADE'})
+  @OneToOne(() => Address, { onDelete: "CASCADE" })
   @JoinColumn()
   address: Address;
 
-  @OneToMany(()=> Anouncement,(an)=>an.user,{onDelete:'CASCADE'})
-  anouncements:Array<Anouncement>
+  @OneToMany(() => Anouncement, (an) => an.user)
+  anouncements: Array<Anouncement>;
 
-  @OneToMany(()=>Comment,(c)=> c.user)
-  comments:Array<Comment>
-
+  @OneToMany(() => Comment, (c) => c.user)
+  comments: Array<Comment>;
 }
-
 
 export default User;

@@ -1,4 +1,10 @@
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import User from "./user.entity";
 
 @Entity("addresses")
@@ -6,10 +12,10 @@ class Address {
   @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column({ length:150 })
+  @Column({ length: 150 })
   rua: string;
 
-  @Column({ type:"integer" })
+  @Column({ type: "integer" })
   cep: number;
 
   @Column({ type: "varchar", length: 7, nullable: true })
@@ -24,11 +30,8 @@ class Address {
   @Column({ type: "varchar", length: 30, nullable: true })
   complemento?: string | null | undefined;
 
-  @OneToOne(() => User,(u)=>u.address)
-  user:User
-
-
-
+  @OneToOne(() => User, (u) => u.address, { onDelete: "CASCADE" })
+  user: User;
 }
 
 export default Address;

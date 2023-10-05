@@ -13,13 +13,11 @@ export const idExists = async (
 
   const userRepository: UserRepo = AppDataSource.getRepository(User);
 
-  const foundEntity: User | null = await userRepository.findOne({ 
-    where:{
-      id
+  const foundEntity: User | null = await userRepository.findOne({
+    where: {
+      id,
     },
-    relations:['address']
-
-    
+    relations: { address: true },
   });
 
   if (!foundEntity) throw new AppError("User not found", 404);

@@ -4,15 +4,22 @@ import Image from "../entities/images.entity";
 import User from "../entities/user.entity";
 import { AppError } from "../errors/app.error";
 import {
+  anouncementRead,
   anouncementRepo,
+  anouncementReturn,
+  anouncementUpdate,
 } from "../interfaces/anouncement.interface";
 import { imageRepo } from "../interfaces/images.interface";
-import { anouncementsReturnSchema } from "../schemas/annoucements.schema";
+import {
+  anouncementsReadSchema,
+  anouncementsReturnSchema,
+} from "../schemas/annoucements.schema";
 
 const create = async (payload: any, user: User) => {
-    if(user.tipo_de_conta!="Anunciante")throw new AppError("Insufficient permission", 403)
-  
-    const anouncementRepository: anouncementRepo =
+  if (user.tipo_de_conta != "Anunciante")
+    throw new AppError("Not Anunciante!", 403);
+
+  const anouncementRepository: anouncementRepo =
     AppDataSource.getRepository(Anouncement);
 
   const newAnnouncement = anouncementRepository.create({
@@ -33,13 +40,11 @@ const create = async (payload: any, user: User) => {
   await anouncementRepository.save(newAnnouncement);
 
   const imageRepository: imageRepo = AppDataSource.getRepository(Image);
-  console.log(newAnnouncement);
   for await (let i of payload.images) {
     const images = imageRepository.create({
       ...i,
       anouncement: newAnnouncement,
     });
-    console.log(i);
     await imageRepository.save(images);
   }
 
@@ -53,4 +58,70 @@ const create = async (payload: any, user: User) => {
   return returnAnounciments;
 };
 
-export default { create };
+const read = async (): Promise<Anouncement[]> => {
+  const anouncimentRepository: anouncementRepo =
+    AppDataSource.getRepository(Anouncement);
+
+  const reads = await anouncimentRepository.find({
+    relations: { images: true },
+  });
+
+  return reads;
+};
+
+const update = async (
+  anouncement: Anouncement,
+  payload: any,
+  userId: number
+) => {
+  const repo: anouncementRepo = AppDataSource.getRepository(Anouncement);
+  if (userId == anouncement.user.id) {
+    const imageRepository: imageRepo = AppDataSource.getRepository(Image);
+    const anouncementUpd: any = repo.create({
+      ...anouncement,
+      ...payload,
+    });
+
+    const anouncementAtualizado: any = await repo.save(anouncementUpd)!;
+
+    for await (let i of payload.imagens) {
+      const updImage = anouncementAtualizado.images.find(
+        (image: any) => image.img_url === i.img_url
+      );
+      if (!updImage) {
+        const images = imageRepository.create({
+          ...i,
+
+          anouncement: anouncementAtualizado,
+        });
+        await imageRepository.save(images);
+      }
+    }
+
+    const returnAnounciments = repo.findOne({
+      where: { id: anouncementAtualizado.id },
+      relations: {
+        images: true,
+      },
+    });
+
+    return returnAnounciments;
+  }
+  throw new AppError("Insufficient permission", 403);
+};
+
+const destroy = async (
+  anouncement: Anouncement,
+  userId: number
+): Promise<void> => {
+  if (userId == anouncement.user.id) {
+    const repo: anouncementRepo = AppDataSource.getRepository(Anouncement);
+    await repo.remove(anouncement);
+  }
+  else{
+
+    throw new AppError("Insufficient permission", 403);
+  }
+};
+
+export default { create, read, destroy, update };

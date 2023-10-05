@@ -20,7 +20,6 @@ const create = async (payload: SessionCreate): Promise<SessionReturn> => {
     throw new AppError("Invalid credentials", 401);
   }
 
-  
   const samePassword: boolean = await compare(payload.password, user.password);
 
   if (!samePassword) {
@@ -28,7 +27,7 @@ const create = async (payload: SessionCreate): Promise<SessionReturn> => {
   }
 
   const token: string = sign(
-    { email: user.email, name: user.nome, tipo_de_conta:user.tipo_de_conta},
+    { email: user.email, name: user.nome, tipo_de_conta: user.tipo_de_conta },
     process.env.SECRET_KEY!,
     { subject: user.id.toString(), expiresIn: process.env.EXPIRES_IN! }
   );

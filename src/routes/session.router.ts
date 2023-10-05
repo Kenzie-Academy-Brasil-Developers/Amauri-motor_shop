@@ -7,5 +7,6 @@ export const sessionRouter: Router = Router();
 
 sessionRouter.post(
   "",
-  validateBody(sessionCreateSchema),sessionControler.create
+  validateBody(sessionCreateSchema),
+  sessionControler.create
 );

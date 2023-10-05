@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserReturn} from "../interfaces/user.interface";
+import { UserReturn } from "../interfaces/user.interface";
 import { userServices } from "../services";
 
 const create = async (req: Request, res: Response): Promise<Response> => {
@@ -24,4 +24,4 @@ const destroy = async (req: Request, res: Response): Promise<Response> => {
   return res.status(204).json();
 };
 
-export default { create,update, destroy };
+export default { create, update, destroy };

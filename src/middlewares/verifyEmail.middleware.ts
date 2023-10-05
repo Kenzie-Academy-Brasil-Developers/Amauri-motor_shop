@@ -4,7 +4,6 @@ import { UserRepo } from "../interfaces/user.interface";
 import User from "../entities/user.entity";
 import { AppError } from "../errors/app.error";
 
-
 export const verifyEmailExists = async (
   req: Request,
   res: Response,
