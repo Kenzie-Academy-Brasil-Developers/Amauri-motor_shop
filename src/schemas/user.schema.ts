@@ -22,7 +22,7 @@ const userCreateSchema = userSchema
     address: addressCreateSchema,
   });
 
-const userReturnSchema = userCreateSchema.omit({ password: true });
+const userReturnSchema = userSchema.omit({ password: true }).extend({address:addressCreateSchema});
 const userUpdateSchema = userCreateSchema
   .omit({ tipo_de_conta: true, address: true })
   .extend({ address: addressUpdateSchema })
