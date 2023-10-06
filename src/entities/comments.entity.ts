@@ -13,7 +13,7 @@ class Comment {
   @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column({ length: 150 })
+  @Column({ length: 2000 })
   descricao: string;
 
   @CreateDateColumn()
