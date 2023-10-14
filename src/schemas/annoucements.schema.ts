@@ -13,8 +13,9 @@ const anouncementsSchema = z.object({
   valor: z.string().or( z.number().positive()),
   descricao: z.string().max(2000),
   img_capa: z.string().max(2000),
-  
+  is_active:z.string().default("ativo"),
 
+  
 
 });
 

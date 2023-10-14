@@ -42,6 +42,9 @@ class Anouncement {
   @Column({ length: 2000 })
   descricao: string;
 
+  @Column({ length: 200, default:'ativo'  })
+  is_active: string;
+
   @Column({ length: 2000 })
   img_capa: string;
 
