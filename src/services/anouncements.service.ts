@@ -12,15 +12,14 @@ import {
 } from "../interfaces/anouncement.interface";
 import { imageRepo } from "../interfaces/images.interface";
 
-
-const create = async (payload:any, user: User) => {
+const create = async (payload: any, user: User) => {
   if (user.tipo_de_conta != "Anunciante")
     throw new AppError("Not Anunciante!", 403);
 
   const anouncementRepository: anouncementRepo =
     AppDataSource.getRepository(Anouncement);
 
-  const newAnnouncement:Anouncement = anouncementRepository.create({
+  const newAnnouncement: Anouncement = anouncementRepository.create({
     marca: payload.marca,
     modelo: payload.modelo,
     ano: payload.ano,
@@ -61,8 +60,11 @@ const read = async (): Promise<Anouncement[]> => {
     AppDataSource.getRepository(Anouncement);
 
   const reads = await anouncimentRepository.find({
-    relations: { images: true,user:{anouncements:true},comments:{user:true}},
-    
+    relations: {
+      images: true,
+      user: { anouncements: true },
+      comments: { user: true },
+    },
   });
 
   return reads;
@@ -82,7 +84,6 @@ const update = async (
     });
 
     const anouncementAtualizado: Anouncement = await repo.save(anouncementUpd)!;
-
     for await (let i of payload.imagens) {
       const updImage = anouncementAtualizado.images.find(
         (image: any) => image.img_url === i.img_url
@@ -116,9 +117,7 @@ const destroy = async (
   if (userId == anouncement.user.id) {
     const repo: anouncementRepo = AppDataSource.getRepository(Anouncement);
     await repo.remove(anouncement);
-  }
-  else{
-
+  } else {
     throw new AppError("Insufficient permission", 403);
   }
 };
