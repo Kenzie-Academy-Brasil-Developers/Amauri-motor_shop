@@ -5,8 +5,9 @@ import { UserType } from "../entities/user.entity";
 const userSchema = z.object({
   id: z.number().positive(),
   nome: z.string().max(50),
+
   email: z.string().max(50).email(),
-  cpf: z.number().positive(),
+  cpf: z.string().max(30),
   celular: z.string().max(30),
   data_de_nascimento: z.string().max(30),
   descricao: z.string().nullish(),

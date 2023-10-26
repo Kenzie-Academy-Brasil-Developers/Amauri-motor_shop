@@ -21,23 +21,23 @@ class Anouncement {
   @Column({ length: 100 })
   modelo: string;
 
-  @Column({ type: "integer" })
-  ano: number;
+  @Column({ length: 200 })
+  ano: string;
 
   @Column({ length: 200 })
   combustivel: string;
 
-  @Column({ type: "integer" })
-  quilometragem: number;
+  @Column({ length: 200 })
+  quilometragem: string;
 
   @Column({ length: 150 })
   cor: string;
 
-  @Column({ type: "decimal", precision: 6, scale: 2 })
-  valor_tabela_fip: number | string;
+  @Column({ length:50 })
+  valor_tabela_fip:  string;
 
-  @Column({ type: "decimal", precision: 6, scale: 2 })
-  valor: number | string;
+  @Column({ length:50 })
+  valor:string;
 
   @Column({ length: 2000 })
   descricao: string;

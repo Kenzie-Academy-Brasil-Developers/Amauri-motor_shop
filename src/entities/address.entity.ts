@@ -15,8 +15,8 @@ class Address {
   @Column({ length: 150 })
   rua: string;
 
-  @Column({ type: "integer" })
-  cep: number;
+  @Column({  length: 30 })
+  cep: string;
 
   @Column({ type: "varchar", length: 7, nullable: true })
   numero?: string | null | undefined;

@@ -14,7 +14,12 @@ const create = async (payload: SessionCreate): Promise<SessionReturn> => {
   const { email } = validate;
 
   const repo: UserRepo = AppDataSource.getRepository(User);
-  const user: User | null = await repo.findOneBy({ email: email });
+  const user: User | null = await repo.findOne({
+    where: { email: email },
+    relations: {
+      address: true,
+    },
+  });;
 
   if (!user) {
     throw new AppError("Invalid credentials", 401);
@@ -27,7 +32,7 @@ const create = async (payload: SessionCreate): Promise<SessionReturn> => {
   }
 
   const token: string = sign(
-    { email: user.email, name: user.nome, tipo_de_conta: user.tipo_de_conta },
+    {user:user},
     process.env.SECRET_KEY!,
     { subject: user.id.toString(), expiresIn: process.env.EXPIRES_IN! }
   );

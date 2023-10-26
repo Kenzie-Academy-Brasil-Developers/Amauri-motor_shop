@@ -5,14 +5,16 @@ import { handleError } from "./middlewares/handleError.middleware";
 import { sessionRouter } from "./routes/session.router";
 import { anouncimentRouter } from "./routes/anouncement.router";
 import { commentRouter } from "./routes/comment.router";
+import cors from "cors"
 
 const app: Application = express();
+app.use(cors())
 app.use(express.json());
+
 app.use("/users", userRouter);
 app.use("/login", sessionRouter);
 app.use("/anouncements", anouncimentRouter)
 app.use("/comments",commentRouter)
-
 
 
 app.use(handleError);

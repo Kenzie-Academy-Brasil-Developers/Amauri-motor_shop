@@ -11,10 +11,7 @@ import {
   anouncementUpdate,
 } from "../interfaces/anouncement.interface";
 import { imageRepo } from "../interfaces/images.interface";
-import {
-  anouncementsReadSchema,
-  anouncementsReturnSchema,
-} from "../schemas/annoucements.schema";
+
 
 const create = async (payload:any, user: User) => {
   if (user.tipo_de_conta != "Anunciante")
@@ -64,7 +61,8 @@ const read = async (): Promise<Anouncement[]> => {
     AppDataSource.getRepository(Anouncement);
 
   const reads = await anouncimentRepository.find({
-    relations: { images: true },
+    relations: { images: true,user:{anouncements:true},comments:{user:true}},
+    
   });
 
   return reads;
